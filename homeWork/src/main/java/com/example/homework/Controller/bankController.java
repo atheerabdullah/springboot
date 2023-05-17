@@ -1,7 +1,6 @@
 package com.example.homework.Controller;
 
 import com.example.homework.Model.Customer;
-import com.example.homework.Model.Task;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,11 +9,11 @@ import java.util.ArrayList;
 @RequestMapping("/v2/bank")
 public class bankController {
 
-    public ArrayList<Customer> customers =new ArrayList<>();
+    public ArrayList<Customer> customers = new ArrayList<>();
 
 
     @GetMapping("/get-all-customers")
-    public ArrayList<Customer> getCustomers(){
+    public ArrayList<Customer> getCustomers() {
         return customers;
     }
 
@@ -29,11 +28,13 @@ public class bankController {
         customers.set(index, customer);
         return customers;
     }
+
     @DeleteMapping("/delete- customer/{index}")
     public ArrayList<Customer> deleteCustomers(@PathVariable int index) {
         customers.remove(index);
         return customers;
     }
+
     //Deposit money to customer
     @PostMapping("/{id}/{balance}")
     public Customer depositMoney(@PathVariable Long id, @PathVariable int balance) {
@@ -42,15 +43,16 @@ public class bankController {
         for (Customer customer : customers) {
             if (customer.getId().equals(id)) {
                 customerToUpdate = customer;
-                break;
+                continue;
             }
 
-        int currentBalance = customerToUpdate.getBalance();
-        int newBalance = currentBalance + balance;
-        customerToUpdate.setBalance(newBalance);
+            int currentBalance = customerToUpdate.getBalance();
+            int newBalance = currentBalance + balance;
+            customerToUpdate.setBalance(newBalance);
+            return customerToUpdate;
+        }
         return customerToUpdate;
     }
-        }
 
 
     ///Withdraw money from customers
